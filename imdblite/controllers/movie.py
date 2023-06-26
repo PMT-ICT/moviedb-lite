@@ -83,7 +83,9 @@ def update_movie(uuid, body):
 
         for row in reader:
             if row['uuid'] == uuid:
-                new_row = {**row, 'json': json.dumps(body)}
+                old_json = json.loads(row['json'])
+                new_json = json.dumps({**old_json, **body})
+                new_row = {**row, 'json': new_json}
                 writer.writerow(new_row)
                 updated = True
             else:
