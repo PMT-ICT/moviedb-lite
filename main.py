@@ -2,4 +2,6 @@ import connexion
 
 app = connexion.App(__name__, specification_dir='imdblite/swagger/')
 app.add_api('swagger.yaml')
-app.run(port=5000)
+
+if __name__ == '__main__':
+    app.run(port=5000)
