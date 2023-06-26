@@ -1,0 +1,168 @@
+openapi: 3.0.1
+
+info:
+    title: IMDB-lite API
+    description: ""
+    contact:
+        email: jorard@embraceit.nl
+    version: 1.0.0
+
+servers:
+  - url: http://localhost:5000/v1
+  - url: http://jorard.pythonanywhere.com/v1
+
+paths:
+  /top10:
+    get:
+      tags:
+        - movies
+      summary: Get the top 10 list of movies, ranked by score.
+      x-openapi-router-controller: imdblite.controllers.movie
+      operationId: top10
+      responses:
+        "200":
+          description: Succesfully fetched top 10.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Movie"
+  /movie:
+    get:
+      tags:
+        - movies
+      summary: Get a list of movies.
+      x-openapi-router-controller: imdblite.controllers.movie
+      operationId: get_movies
+      responses:
+        "200":
+          description: Succesfully fetched movies.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Movie"
+
+    post:
+      tags:
+        - movies
+      summary: Add a new movie.
+      x-openapi-router-controller: imdblite.controllers.movie
+      operationId: add_movie
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Movie"
+      responses:
+        "201":
+          description: Movie added succesfully.
+        "400":
+          description: Invalid movie.
+          content:
+            application/json:
+              schema:
+                type: string
+                example: Unable to validate request body.
+  /movie/{uuid}:
+    get:
+      tags:
+        - movies
+      parameters:
+        - $ref: "#/components/parameters/uuid"
+      summary: Get movie matching UUID.
+      x-openapi-router-controller: imdblite.controllers.movie
+      operationId: get_movie
+      responses:
+        "200":
+          description: Movie fetched succesfully.
+        "404":
+          description: Movie not found.
+    put:
+      tags:
+        - movies
+      parameters:
+        - $ref: "#/components/parameters/uuid"
+      summary: Update existing movie.
+      x-openapi-router-controller: imdblite.controllers.movie
+      operationId: update_movie
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Movie"
+      responses:
+        "204":
+          description: Movie updated succesfully.
+        "400":
+          description: Invalid UUID.
+        "404":
+          description: Movie not found.
+    delete:
+      tags:
+        - movies
+      parameters:
+        - $ref: "#/components/parameters/uuid"
+      summary: Delete movie.
+      x-openapi-router-controller: imdblite.controllers.movie
+      operationId: delete_movie
+      responses:
+        "204":
+          description: Movie deleted succesfully.
+        "400":
+          description: Invalid UUID.
+        "404":
+          description: Movie not found.
+      
+components:
+  parameters:
+    uuid:
+      name: uuid
+      in: path
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+  schemas:
+    Movie:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Harry Potter and the Chamber of Secrets
+        score:
+          type: number
+          example: 7.2
+        links:
+          type: object
+          properties:
+            self:
+              type: string
+              example: /movie/9bb0dfc2-1277-463b-9c2a-4982abcd0513
+    
+    Actor:
+      type: object
+      properties:
+        first_name:
+          type: string
+          example: Denzel
+        last_name:
+          type: string
+          example: Washington
+    
+    Studio:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Marvel
+    
+    Platform:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Netflix
