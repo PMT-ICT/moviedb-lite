@@ -1,7 +1,7 @@
 openapi: 3.0.1
 
 info:
-    title: IMDB-lite API
+    title: MovieDB-lite API
     description: ""
     contact:
         email: jorard@embraceit.nl
@@ -9,7 +9,6 @@ info:
 
 servers:
   - url: http://localhost:5000/v1
-  - url: http://jorard.pythonanywhere.com/v1
 
 paths:
   /top10:
@@ -142,27 +141,3 @@ components:
             self:
               type: string
               example: /movie/9bb0dfc2-1277-463b-9c2a-4982abcd0513
-    
-    Actor:
-      type: object
-      properties:
-        first_name:
-          type: string
-          example: Denzel
-        last_name:
-          type: string
-          example: Washington
-    
-    Studio:
-      type: object
-      properties:
-        name:
-          type: string
-          example: Marvel
-    
-    Platform:
-      type: object
-      properties:
-        name:
-          type: string
-          example: Netflix
