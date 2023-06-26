@@ -13,8 +13,12 @@ fields = ['id', 'uuid', 'json']
 
 movie_schema = Schema({
     'name': str,
-    'score': Or(int, float)
-}, ignore_extra_keys=True)
+    'score': Or(int, float),
+    'uuid': str,
+    'links': {'self': str},
+    'platforms': [str],
+    'studio': str
+})
 
 def _movie_dto(row):
     return {
