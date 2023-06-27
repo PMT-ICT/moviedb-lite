@@ -5,7 +5,7 @@ import csv
 import shutil
 from uuid import uuid4
 
-from schema import Schema, Or, SchemaError
+from schema import Schema, Or, SchemaError, Optional
 
 from imdblite.config import MOVIES_DB
 
@@ -14,8 +14,8 @@ fields = ['id', 'uuid', 'json']
 movie_schema = Schema({
     'name': str,
     'score': Or(int, float),
-    'uuid': str,
-    'links': {'self': str},
+    Optional('uuid'): str,
+    Optional('links'): {'self': str},
     'platforms': [str],
     'studio': str
 })
